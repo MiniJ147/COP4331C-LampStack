@@ -1,4 +1,8 @@
 <?php
+ /*
+	File: SearchContact.php
+	Name: Wenteng Lin
+ */
 
 	$inData = getRequestInfo();
 	
@@ -12,9 +16,10 @@
 	} 
 	else
 	{
-		$stmt = $conn->prepare("select Name from Colors where Name like ? and UserID=?");
-		$colorName = "%" . $inData["search"] . "%";
-		$stmt->bind_param("ss", $colorName, $inData["userId"]);
+		$stmt = $conn->prepare("select FirstName, LastName, Phone, Email FROM Contacts WHERE (FirstName LIKE ? OR LastName LIKE ?) and UserID=?");
+		$SearchFor = "%" . $inData["Search"] . "%";
+		$stmt->bind_param("ssi", $SearchFor,$SearchFor, $inData["UserId"]);
+
 		$stmt->execute();
 		
 		$result = $stmt->get_result();
@@ -26,7 +31,14 @@
 				$searchResults .= ",";
 			}
 			$searchCount++;
-			$searchResults .= '"' . $row["Name"] . '"';
+
+			$searchResults .= '{' . 
+			'"id":' . $row["ID"] . ',' .
+			'"firstName":"' . $row["FirstName"] . '",' .
+			'"lastName":"' . $row["LastName"] . '",' .
+			'"phone":"' . $row["Phone"] . '",' .
+			'"email":"' . $row["Email"] . '"' . 
+		'}';
 		}
 		
 		if( $searchCount == 0 )
@@ -51,12 +63,14 @@
 	{
 		header('Content-type: application/json');
 		echo $obj;
+
+		exit
 	}
 	
 	function returnWithError( $err )
 	{
-		$retValue = '{"id":0,"firstName":"","lastName":"","error":"' . $err . '"}';
-		sendResultInfoAsJson( $retValue );
+		$retValue = '{"results":[],"error":"' . $err . '"}';
+        sendResultInfoAsJson( $retValue );
 	}
 	
 	function returnWithInfo( $searchResults )

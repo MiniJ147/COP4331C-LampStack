@@ -1,8 +1,17 @@
 <?php
+/*
+	File: AddContact.php
+	Name: Wenteng Lin
+ */
 	$inData = getRequestInfo();
 	
-	$color = $inData["color"];
-	$userId = $inData["userId"];
+	$FirstName = $inData["FirstName"];
+	$LastName = $inData["LastName"];
+	$Phone = $inData["Phone"];
+	$Email = $inData["Email"];
+	$UserID = $inData["UserID"];
+
+
 
 	$conn = new mysqli("localhost", "TheBeast", "WeLoveCOP4331", "COP4331");
 	if ($conn->connect_error) 
@@ -11,8 +20,8 @@
 	} 
 	else
 	{
-		$stmt = $conn->prepare("INSERT into Colors (UserId,Name) VALUES(?,?)");
-		$stmt->bind_param("ss", $userId, $color);
+		$stmt = $conn->prepare("INSERT into Contacts (FirstName, LastName, Phone, Email,UserID) VALUES(?,?,?,?,?)");
+		$stmt->bind_param("sssss", $FirstName, $LastName, $Phone,$Email,$UserID);
 		$stmt->execute();
 		$stmt->close();
 		$conn->close();
