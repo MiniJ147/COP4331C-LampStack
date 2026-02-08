@@ -16,10 +16,9 @@
 	} 
 	else
 	{
-		$stmt = $conn->prepare("select FirstName, LastName, Phone, Email FROM Contacts WHERE (FirstName LIKE ? OR LastName LIKE ?) and UserID=?");
-		$SearchFor = "%" . $inData["Search"] . "%";
-		$stmt->bind_param("ssi", $SearchFor,$SearchFor, $inData["UserId"]);
-
+		$stmt = $conn->prepare("SELECT ID, FirstName, LastName, Phone, Email FROM Contacts WHERE (FirstName LIKE ? OR LastName LIKE ?) AND UserID=?");
+		$SearchFor = "%" . $inData["search"] . "%";
+		$stmt->bind_param("ssi", $SearchFor, $SearchFor, $inData["userId"]);
 		$stmt->execute();
 		
 		$result = $stmt->get_result();
@@ -64,7 +63,7 @@
 		header('Content-type: application/json');
 		echo $obj;
 
-		exit
+		exit;
 	}
 	
 	function returnWithError( $err )
