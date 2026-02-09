@@ -58,6 +58,61 @@ function doLogin()
 
 }
 
+// DeAndre Bailey
+
+function doSignup()
+{
+	let firstName = document.getElementById("firstName").value;
+	let lastName = document.getElementById("lastName").value;
+	let signupName = document.getElementById("signupName").value;
+	let password = document.getElementById("signupPassword").value;
+
+	document.getElementById("signupResult").innerHTML = "";
+
+	let tmp = {
+		firstName:firstName,
+		lastName:lastName,
+		login:signupName,
+		password:password
+	};
+
+	let jsonPayload = JSON.stringify( tmp );
+	let url = urlBase + '/SignUp.' + extension;
+
+	let xhr = new XMLHttpRequest();
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	try
+	{
+		xhr.onreadystatechange = function() 
+		{
+
+
+			if (this.readyState == 4 && this.status == 200)
+			{
+				let jsonObject = JSON.parse( xhr.responseText );
+
+				if ( jsonObject.error != "" )
+				{
+					document.getElementById("signupResult").innerHTML = jsonObject.error;
+					return;
+				}
+
+				userId = jsonObject.id;
+				
+				saveCookie();
+
+				window.location.href = "color.html"; // redirect to page needed when logged in
+			}
+		};
+		xhr.send(jsonPayload);
+	}
+	catch(err)
+	{
+		document.getElementById("signupResult").innerHTML = err.message;
+	}
+}
+
 function saveCookie()
 {
 	let minutes = 20;
