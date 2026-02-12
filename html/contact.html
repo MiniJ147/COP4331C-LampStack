@@ -1,0 +1,32 @@
+<html>
+<head>
+	<title>COP 4331 LAMP Stack Demo</title>
+	<script type="text/javascript" src="js/code.js"></script>
+    <link href="css/styles.css" rel="stylesheet">	
+
+	
+</head>
+<body>
+<h1 id = "title">Lampy's Contact Manager</h1>
+
+<div id="accessUIDiv">
+	<br />
+    <h3> Search Contacts</h3>
+	<input type="text" id="search" placeholder="Search" />
+	<button type="button" id="cSearch" class="buttons" onclick="searchColor();"> Find Contact </button><br />
+	<span id="SearchResults"></span>
+	<p id="Contacts">
+	</p><br /><br />
+
+    <h2> Add Contact</h2>
+    <input type="text" id="add" placeholder="Search">
+	<button type="button" id="cAdd" class="buttons" onclick="addColor();"> Create Contact </button><br />
+	<span id="addResult"></span>
+</div>
+
+<div id="loggedInDiv">
+	<span id="userName"></span><br />
+	<button type="button" id="logoutButton" class="buttons" onclick="doLogout();"> Leave? ;-; </button>
+</div>
+</body>
+</html>
