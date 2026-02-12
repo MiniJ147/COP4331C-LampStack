@@ -4,17 +4,15 @@ File: EditContact.php
 Name: Nicolas Fuentes
 */
 
-	$inData = getRequestInfo();
+	$ContactID = isset($inData["ID"]) ? intval($inData["ID"]) : 0;
+	$UserID    = isset($inData["UserID"]) ? intval($inData["UserID"]) : 0;
 
-	$contactId = isset($inData["id"]) ? intval($inData["id"]) : 0;
-	$userId    = isset($inData["userId"]) ? intval($inData["userId"]) : 0;
+	$FirstName = isset($inData["FirstName"]) ? trim($inData["FirstName"]) : "";
+	$LastName  = isset($inData["LastName"])  ? trim($inData["LastName"])  : "";
+	$Phone     = isset($inData["Phone"])     ? trim($inData["Phone"])     : "";
+	$Email     = isset($inData["Email"])     ? trim($inData["Email"])     : "";
 
-	$firstName = isset($inData["firstName"]) ? trim($inData["firstName"]) : "";
-	$lastName  = isset($inData["lastName"])  ? trim($inData["lastName"])  : "";
-	$phone     = isset($inData["phone"])     ? trim($inData["phone"])     : "";
-	$email     = isset($inData["email"])     ? trim($inData["email"])     : "";
-
-	if ($contactId < 1 || $userId < 1)
+	if ($ContactID < 1 || $UserID < 1)
 	{
 		returnWithError("Missing id or userId");
 		exit();
@@ -28,7 +26,7 @@ Name: Nicolas Fuentes
 	else
 	{
 		$stmt = $conn->prepare("UPDATE Contacts SET FirstName=?, LastName=?, Phone=?, Email=? WHERE ID=? AND UserID=?");
-		$stmt->bind_param("ssssii", $firstName, $lastName, $phone, $email, $contactId, $userId);
+		$stmt->bind_param("ssssii", $FirstName, $LastName, $Phone, $Email, $ContactID, $UserID);
 
 		if( !$stmt->execute() )
 		{

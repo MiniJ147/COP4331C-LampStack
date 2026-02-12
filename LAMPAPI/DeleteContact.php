@@ -6,12 +6,12 @@ Name: Nicolas Fuentes
 
 	$inData = getRequestInfo();
 
-	$contactId = isset($inData["id"]) ? intval($inData["id"]) : 0;
-	$userId    = isset($inData["userId"]) ? intval($inData["userId"]) : 0;
+	$ContactID = isset($inData["ID"]) ? intval($inData["ID"]) : 0;
+	$UserID    = isset($inData["UserID"]) ? intval($inData["UserID"]) : 0;
 
-	if ($contactId < 1 || $userId < 1)
+	if ($ContactID < 1 || $UserID < 1)
 	{
-		returnWithError("Missing id or userId");
+		returnWithError("Missing ID or UserID");
 		exit();
 	}
 
@@ -23,7 +23,7 @@ Name: Nicolas Fuentes
 	else
 	{
 		$stmt = $conn->prepare("DELETE FROM Contacts WHERE ID=? AND UserID=?");
-		$stmt->bind_param("ii", $contactId, $userId);
+		$stmt->bind_param("ii", $ContactID, $UserID);
 
 		if( !$stmt->execute() )
 		{
