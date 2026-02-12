@@ -1,15 +1,36 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <link rel="stylesheet" href="CSS/rStyles.css">
-    </head>
-    <body> <!--I will turn this into a form when the Signup.php is finished -->
-        <h1>Create an Account</h1>
-        <label for = "NUname"> Username</label><br> <!--New Username-->
-        <input type = "text" id = "NUname" name = "NUname"><br>
-        <label for = "NPass"> Password</label><br>
-        <input type ="text" id = "NPass" name = "NPass"><br> <!--New Password-->
-        <input type = "submit" value = "Create"><br>
-        <a href = "Login.html">Already have an account? Login here</a>
-    </body>
+  <head>
+    <link rel="stylesheet" href="CSS/rStyles.css">
+    <title>Create Account</title>
+  </head>
+
+  <body>
+    <h1>Create an Account</h1>
+
+    <form action="SignUp.php" method="POST">
+      
+      <!-- First Name -->
+      <br><label for="firstName">First Name</label>
+      <input type="text" id="firstName" name="firstName" required><br>
+
+      <!-- Last Name -->
+      <br><label for="lastName">Last Name</label>
+      <input type="text" id="lastName" name="lastName" required><br>
+
+      <!-- Username -->
+      <br><label for="NUname">Username</label>
+      <input type="text" id="NUname" name="NUname" required><br>
+
+      <!-- Password -->
+      <br><label for="NPass">Password</label>
+      <input type="password" id="NPass" name="NPass" required><br>
+
+      <br>
+      <input type="submit" value="Create">
+    </form>
+
+    <br>
+    <a href="Login.html">Already have an account? Login here</a>
+  </body>
 </html>
