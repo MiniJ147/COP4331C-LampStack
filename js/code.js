@@ -1,4 +1,4 @@
-const urlBase = 'http://COP4331-5.com/LAMPAPI';
+const urlBase = 'http://COP4331-5.com/LAMPAPI'; //URL for API needs to be changed to server URL
 const extension = 'php';
 
 let userId = 0;
@@ -58,6 +58,61 @@ function doLogin()
 
 }
 
+// DeAndre Bailey
+
+function doSignup()
+{
+	let firstName = document.getElementById("firstName").value;
+	let lastName = document.getElementById("lastName").value;
+	let signupName = document.getElementById("signupName").value;
+	let password = document.getElementById("signupPassword").value;
+
+	document.getElementById("signupResult").innerHTML = "";
+
+	let tmp = {
+		firstName:firstName,
+		lastName:lastName,
+		login:signupName,
+		password:password
+	};
+
+	let jsonPayload = JSON.stringify( tmp );
+	let url = urlBase + '/SignUp.' + extension;
+
+	let xhr = new XMLHttpRequest();
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	try
+	{
+		xhr.onreadystatechange = function() 
+		{
+
+
+			if (this.readyState == 4 && this.status == 200)
+			{
+				let jsonObject = JSON.parse( xhr.responseText );
+
+				if ( jsonObject.error != "" )
+				{
+					document.getElementById("signupResult").innerHTML = jsonObject.error;
+					return;
+				}
+
+				userId = jsonObject.id;
+				
+				saveCookie();
+
+				window.location.href = "color.html"; // redirect to page needed when logged in
+			}
+		};
+		xhr.send(jsonPayload);
+	}
+	catch(err)
+	{
+		document.getElementById("signupResult").innerHTML = err.message;
+	}
+}
+
 function saveCookie()
 {
 	let minutes = 20;
@@ -108,35 +163,84 @@ function doLogout()
 	window.location.href = "index.html";
 }
 
-function addColor()
+//DeAndre Bailey
+
+function addContact()
 {
-	let newColor = document.getElementById("colorText").value;
-	document.getElementById("colorAddResult").innerHTML = "";
+	let first = document.getElementById("contactFirst").value;
+	let last = document.getElementById("contactLast").value;
+	let phone = document.getElementById("contactPhone").value;
+	let email = document.getElementById("contactEmail").value;
 
-	let tmp = {color:newColor,userId,userId};
-	let jsonPayload = JSON.stringify( tmp );
+	document.getElementById("contactAddResult").innerHTML = "";
 
-	let url = urlBase + '/AddColor.' + extension;
+	// Validating AddContact.php requirements (FirstName, LastName, Phone, Email, UserID)
+	let tmp = {
+		FirstName: first, 
+		LastName: last, 
+		Phone: phone, 
+		Email: email, 
+		UserID: userId 
+	};
 	
+	let jsonPayload = JSON.stringify( tmp );
+	let url = urlBase + '/AddContact.' + extension;
+
 	let xhr = new XMLHttpRequest();
 	xhr.open("POST", url, true);
 	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
 	try
 	{
-		xhr.onreadystatechange = function() 
+		xhr.onreadystatechange = function()
 		{
-			if (this.readyState == 4 && this.status == 200) 
+			if (this.readyState == 4 && this.status == 200)
 			{
-				document.getElementById("colorAddResult").innerHTML = "Color has been added";
+				document.getElementById("contactAddResult").innerHTML = "Contact has been added";
+				// Clear inputs
+				document.getElementById("contactFirst").value = "";
+				document.getElementById("contactLast").value = "";
+				document.getElementById("contactPhone").value = "";
+				document.getElementById("contactEmail").value = "";
+				
+				// Refresh the contact list
+				searchContacts();
 			}
 		};
 		xhr.send(jsonPayload);
 	}
 	catch(err)
 	{
-		document.getElementById("colorAddResult").innerHTML = err.message;
+		document.getElementById("contactAddResult").innerHTML = err.message;
 	}
-	
+}
+
+function deleteContact(id)
+{
+	// Validating DeleteContact.php requirements (ID, UserID)
+	let tmp = {ID: id, UserID: userId};
+	let jsonPayload = JSON.stringify( tmp );
+
+	let url = urlBase + '/DeleteContact.' + extension;
+
+	let xhr = new XMLHttpRequest();
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	try
+	{
+		xhr.onreadystatechange = function()
+		{
+			if (this.readyState == 4 && this.status == 200)
+			{
+				// Reload list to show deletion
+				searchContacts();
+			}
+		};
+		xhr.send(jsonPayload);
+	}
+	catch(err)
+	{
+		document.getElementById("contactSearchResult").innerHTML = err.message;
+	}
 }
 
 function searchColor()
@@ -182,4 +286,111 @@ function searchColor()
 		document.getElementById("colorSearchResult").innerHTML = err.message;
 	}
 	
+}
+
+function searchContacts()
+{
+	let srch = document.getElementById("searchText").value;
+	document.getElementById("contactSearchResult").innerHTML = "";
+
+	// SearchContact.php requirements (search, userId)
+	let tmp = {search:srch, userId:userId};
+	let jsonPayload = JSON.stringify( tmp );
+
+	let url = urlBase + '/SearchContact.' + extension;
+
+	let xhr = new XMLHttpRequest();
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	try
+	{
+		xhr.onreadystatechange = function()
+		{
+			if (this.readyState == 4 && this.status == 200)
+			{
+				document.getElementById("contactSearchResult").innerHTML = "Contacts retrieved";
+				let jsonObject = JSON.parse( xhr.responseText );
+				
+				let html = "<table><tr><th>First Name</th><th>Last Name</th><th>Phone</th><th>Email</th><th>Actions</th></tr>";
+
+				if( jsonObject.error )
+				{
+					document.getElementById("contactSearchResult").innerHTML = jsonObject.error;
+					return;
+				}
+
+				for( let i=0; i<jsonObject.results.length; i++ )
+				{
+					let cur = jsonObject.results[i];
+					
+					// match SearchContact.php return keys (firstName, lastName, phone, email, id)
+					html += "<tr>";
+					html += "<td>" + cur.firstName + "</td>";
+					html += "<td>" + cur.lastName + "</td>";
+					html += "<td>" + cur.phone + "</td>";
+					html += "<td>" + cur.email + "</td>";
+					
+					// For delete, we can directly call deleteContact with the contact's ID. Make sure SearchContact.php returns the contact's ID as 'id'.
+					html += "<td><button type='button' onclick='deleteContact(" + cur.id + ")'>Delete</button></td>";
+					// For edit, you usually populate the inputs and switch a button to 'Update' mode, or pass the ID to a helper. Here is a simple update helper:
+					html += "<td><button type='button' onclick='populateEdit(" + cur.id + ")'>Edit</button></td>"; 
+					html += "</tr>";
+				}
+				html += "</table>";
+				
+				document.getElementById("contactSearchResult").innerHTML = html;
+			}
+		};
+		xhr.send(jsonPayload);
+	}
+	catch(err)
+	{
+		document.getElementById("contactSearchResult").innerHTML = err.message;
+	}
+}
+
+function updateContact()
+{
+	if( currentContactId < 0 ) return;
+
+	let first = document.getElementById("contactFirst").value;
+	let last = document.getElementById("contactLast").value;
+	let phone = document.getElementById("contactPhone").value;
+	let email = document.getElementById("contactEmail").value;
+
+	// EditContact.php requirements (ID, UserID, FirstName, LastName, Phone, Email)
+	let tmp = {
+		ID: currentContactId,
+		UserID: userId,
+		FirstName: first, 
+		LastName: last, 
+		Phone: phone, 
+		Email: email 
+	};
+	
+	let jsonPayload = JSON.stringify( tmp );
+	let url = urlBase + '/EditContact.' + extension;
+
+	let xhr = new XMLHttpRequest();
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	try
+	{
+		xhr.onreadystatechange = function()
+		{
+			if (this.readyState == 4 && this.status == 200)
+			{
+				document.getElementById("contactAddResult").innerHTML = "Contact has been updated";
+				currentContactId = -1;
+				
+				// Refresh list
+				searchContacts();
+			}
+		};
+		xhr.send(jsonPayload);
+	}
+	catch(err)
+	{
+		document.getElementById("contactAddResult").innerHTML = err.message;
+	}
 }
