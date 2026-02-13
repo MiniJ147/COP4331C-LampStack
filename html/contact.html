@@ -1,32 +1,33 @@
+<!DOCTYPE html>
 <html>
 <head>
-	<link rel="stylesheet" href="CSS/cStyles.css">
-	<title>COP 4331 LAMP Stack Demo</title>
-	<script type="text/javascript" src="js/code.js"></script>
-
-	
+  <link rel="stylesheet" href="css/cStyles.css">
+  <title>COP 4331 LAMP Stack Demo</title>
+  <script type="text/javascript" src="js/code.js"></script>
 </head>
-<body>
-<h1 id = "title">Lampy's Contact Manager</h1>
 
-<div id="accessUIDiv">
-	<br />
-    <h3> Search Contacts</h3>
-	<input type="text" id="search" placeholder="Search" />
-	<button type="button" id="cSearch" class="buttons" onclick="searchColor();"> Find Contact </button><br />
-	<span id="SearchResults"></span>
-	<p id="Contacts">
-	</p><br /><br />
+<body onload="readCookie();">
+	<h1 id="title">Contact Manager</h1>
 
-    <h2> Add Contact</h2>
-    <input type="text" id="add" placeholder="Search">
-	<button type="button" id="cAdd" class="buttons" onclick="addColor();"> Create Contact </button><br />
-	<span id="addResult"></span>
-</div>
+  <div id="accessUIDiv">
+    <h3>Search Contacts</h3>
+    <input type="text" id="searchText" placeholder="Search" />
+    <button type="button" class="buttons" onclick="searchContacts();">Find Contact</button><br /><br />
+    <div id="contactSearchResult"></div>
 
-<div id="loggedInDiv">
-	<span id="userName"></span><br />
-	<button type="button" id="logoutButton" class="buttons" onclick="doLogout();"> Leave? ;-; </button>
-</div>
+    <h2>Add Contact</h2>
+    <input type="text" id="contactFirst" placeholder="First Name" /><br />
+    <input type="text" id="contactLast" placeholder="Last Name" /><br />
+    <input type="text" id="contactPhone" placeholder="Phone" /><br />
+    <input type="text" id="contactEmail" placeholder="Email" /><br />
+    <button type="button" class="buttons" onclick="addContact();">Create Contact</button><br /><br />
+    <div id="contactAddResult"></div>
+  </div>
+
+  <div id="loggedInDiv">
+    <span id="userName"></span><br />
+    <button type="button" id="logoutButton" class="buttons" onclick="doLogout();">Exit</button>
+  </div>
 </body>
 </html>
+

@@ -1,4 +1,4 @@
-const urlBase = 'http://COP4331-5.com/LAMPAPI'; //URL for API needs to be changed to server URL
+const urlBase = 'http://group3lamp.xyz/LAMPAPI'; //URL for API needs to be changed to server URL
 const extension = 'php';
 
 let userId = 0;
@@ -46,7 +46,7 @@ function doLogin()
 
 				saveCookie();
 	
-				window.location.href = "color.html";
+				window.location.href = "contact.html";
 			}
 		};
 		xhr.send(jsonPayload);
@@ -102,7 +102,7 @@ function doSignup()
 				
 				saveCookie();
 
-				window.location.href = "color.html"; // redirect to page needed when logged in
+				window.location.href = "contact.html"; // redirect to page needed when logged in
 			}
 		};
 		xhr.send(jsonPayload);

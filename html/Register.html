@@ -1,47 +1,33 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <link rel="stylesheet" href="CSS/rStyles.css">
-    <title>Create Account</title>
-  </head>
+<head>
+  <link rel="stylesheet" href="css/rStyles.css">
+  <title>Create Account</title>
+</head>
+<body>
+  <h1>Create an Account</h1>
 
-  <body>
-    <h1>Create an Account</h1>
+  <label for="firstName">First Name</label>
+  <input type="text" id="firstName" required><br>
 
-    <form action="Signup.php" method="POST">
-      
-      <!-- First Name -->
-      <label for="firstName">First Name</label>
-      <input type="text" id="firstName" name="firstName" required><br>
+  <br><label for="lastName">Last Name</label>
+  <input type="text" id="lastName" required><br>
 
-      <!-- Last Name -->
-      <br><label for="lastName">Last Name</label>
-      <input type="text" id="lastName" name="lastName" required><br>
+  <br><label for="signupName">Username</label>
+  <input type="text" id="signupName" required><br>
 
-      <!-- Username -->
-      <br><label for="NUname">Username</label>
-      <input type="text" id="NUname" name="NUname" required><br>
+  <br><label for="signupPassword">Password</label>
+  <input type="password" id="signupPassword" required><br>
 
-      <!-- Password -->
-      <br><label for="NPass">Password</label>
-      <input type="password" id="NPass" name="NPass" required><br>
-      
-      <!-- Optional Contact Info -->
-      <h3 style="margin-top:24px;">Optional Contact Information</h3>
+  <br>
+  <input type="button" value="Create Account" onclick="doSignup()">
 
-      <!-- Email (Optional) -->
-      <label for="email">Email (Optional)</label>
-      <input type="email" id="email" name="email" placeholder="example@email.com">
+  <div id="signupResult"></div>
 
-      <!-- Phone Number (Optional) -->
-      <label for="phone">Phone Number (Optional)</label>
-      <input type="tel" id="phone" name="phone" placeholder="(123) 456-7890">
+  <br><br>
+  <a href="index.html">Already have an account? Login here</a>
 
-      <br>
-      <input type="submit" value="Create Account">
-    </form>
-
-    <br>
-    <a href="Login.html">Already have an account? Login here</a>
-  </body>
+  <script src="js/code.js"></script>
+</body>
 </html>
+
