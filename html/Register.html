@@ -8,10 +8,10 @@
   <body>
     <h1>Create an Account</h1>
 
-    <form action="SignUp.php" method="POST">
+    <form action="Signup.php" method="POST">
       
       <!-- First Name -->
-      <br><label for="firstName">First Name</label>
+      <label for="firstName">First Name</label>
       <input type="text" id="firstName" name="firstName" required><br>
 
       <!-- Last Name -->
@@ -25,9 +25,20 @@
       <!-- Password -->
       <br><label for="NPass">Password</label>
       <input type="password" id="NPass" name="NPass" required><br>
+      
+      <!-- Optional Contact Info -->
+      <h3 style="margin-top:24px;">Optional Contact Information</h3>
+
+      <!-- Email (Optional) -->
+      <label for="email">Email (Optional)</label>
+      <input type="email" id="email" name="email" placeholder="example@email.com">
+
+      <!-- Phone Number (Optional) -->
+      <label for="phone">Phone Number (Optional)</label>
+      <input type="tel" id="phone" name="phone" placeholder="(123) 456-7890">
 
       <br>
-      <input type="submit" value="Create">
+      <input type="submit" value="Create Account">
     </form>
 
     <br>
