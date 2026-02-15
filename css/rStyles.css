@@ -85,34 +85,48 @@ input:focus{
   box-shadow: 0 0 0 3px rgba(212,175,55,.20);
 }
 
-/* Buttons: light pill */
+/* Buttons: light “pill” like contact page */
 button,
 input[type="submit"],
+input[type="button"],
+input[type="reset"],
 .buttons{
-  display:inline-block;
-  cursor:pointer;
+  -webkit-appearance: none;
+  appearance: none;
+
+  display: inline-block;
+  cursor: pointer;
   border: 0;
   border-radius: 12px;
   padding: 10px 14px;
+
+  font: inherit;              /* important: match font sizing */
   font-weight: 650;
   letter-spacing: .2px;
+
   background: rgba(255,255,255,.92);
-  color:#151515;
+  color: #151515;
+
   transition: transform .06s ease, box-shadow .18s ease, opacity .18s ease;
   box-shadow: 0 10px 22px rgba(0,0,0,.30);
 }
 
 button:hover,
 input[type="submit"]:hover,
+input[type="button"]:hover,
+input[type="reset"]:hover,
 .buttons:hover{
   box-shadow: 0 14px 28px rgba(0,0,0,.38);
 }
 
 button:active,
 input[type="submit"]:active,
+input[type="button"]:active,
+input[type="reset"]:active,
 .buttons:active{
   transform: translateY(1px);
 }
+
 
 /* Links */
 a{
