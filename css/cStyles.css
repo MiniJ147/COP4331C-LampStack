@@ -463,3 +463,77 @@ select:focus{
   .app,.container,#app,#container{ padding:18px 12px 24px; }
   .topbar__inner,.header__inner{ padding:12px 12px; }
 }
+
+/* ---------- Contact page layout tweaks (center + narrower inputs) ---------- */
+
+/* Center the title and main sections, keep a nice max width */
+#title,
+#accessUIDiv,
+#loggedInDiv{
+  width: min(720px, 92vw);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Slightly center section headings too (optional; comment out if you prefer left) */
+#accessUIDiv h2,
+#accessUIDiv h3{
+  text-align: left;
+}
+
+/* Make all contact-page inputs not full-screen width */
+#accessUIDiv input[type="text"],
+#accessUIDiv input[type="email"],
+#accessUIDiv input[type="password"],
+#accessUIDiv input[type="tel"]{
+  width: min(520px, 92vw);   /* “half-ish” on desktop */
+  display: block;
+}
+
+/* Put the search input + Find button on one row and centered */
+#accessUIDiv #searchText{
+  display: inline-block;
+  width: min(520px, 92vw);
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+#accessUIDiv .buttons{
+  vertical-align: middle;
+}
+
+/* If your <br> is forcing line breaks, this helps spacing look tighter */
+#accessUIDiv br{
+  line-height: 10px;
+}
+
+/* Tighten button spacing everywhere (including the table actions) */
+.buttons{
+  margin-right: 6px;
+}
+
+/* If your results table uses action buttons inside cells, make them hug closer */
+table td:last-child .buttons,
+.table-actions .buttons{
+  margin-right: 6px;
+}
+
+/* Optional: give the logout area some breathing room + align with the column */
+#loggedInDiv{
+  margin-top: 18px;
+}
+
+/* Mobile: allow inputs to expand a bit */
+@media (max-width: 520px){
+  #accessUIDiv input[type="text"],
+  #accessUIDiv #searchText{
+    width: min(92vw, 640px);
+    margin-right: 0;
+  }
+
+  /* Stack search field + button on small screens */
+  #accessUIDiv #searchText{
+    display: block;
+    margin-bottom: 10px;
+  }
+}
