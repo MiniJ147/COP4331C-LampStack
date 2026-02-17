@@ -28,6 +28,26 @@
     <span id="userName"></span><br />
     <button type="button" id="logoutButton" class="buttons" onclick="doLogout();">Exit</button>
   </div>
+  
+  <div id="edit" style="display:none;" class="pUp">
+    <div class="Content">
+
+    <span class="close" onclick="closeEdit()">X</span>
+
+
+    <h3>Edit Contact</h3>
+
+    <input type ="text" id="editF" placeholder="First Name">
+    <input type ="text" id="editL" placeholder="Last Name">
+    <input type ="text" id="editP" placeholder="Phone">
+    <input type ="text" id="editE" placeholder="Email">
+    <br><br>
+    
+    <button type="button" onclick="cEdit()">Update Contact</button>
+
+    <p id="eResults"></p>
+  </div>
+</div>
 </body>
 </html>
 

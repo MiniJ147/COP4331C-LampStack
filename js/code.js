@@ -332,8 +332,7 @@ function searchContacts()
 					
 					// For delete, we can directly call deleteContact with the contact's ID. Make sure SearchContact.php returns the contact's ID as 'id'.
 					html += "<td><button type='button' onclick='deleteContact(" + cur.id + ")'>Delete</button></td>";
-					// For edit, you usually populate the inputs and switch a button to 'Update' mode, or pass the ID to a helper. Here is a simple update helper:
-					html += "<td><button type='button' onclick='populateEdit(" + cur.id + ")'>Edit</button></td>"; 
+					html += "<td><button type ='button onclick='openEdit'("+ cur.id + ", " + + cur.firstName + ", " + cur.lastName + ", " + cur.phone + ", " + cur.email +")'>Edit</button></td>"; 
 					html += "</tr>";
 				}
 				html += "</table>";
@@ -349,7 +348,7 @@ function searchContacts()
 	}
 }
 
-function updateContact()
+function updateContact(currentContactId)
 {
 	if( currentContactId < 0 ) return;
 
@@ -392,5 +391,63 @@ function updateContact()
 	catch(err)
 	{
 		document.getElementById("contactAddResult").innerHTML = err.message;
+	}
+
+	function openEdit(id, first, last, phone, email){
+		ECI = id;
+
+		document.getElementById("editF").value = first;
+		document.getElementById("editL").value = last;
+		document.getElementById("editP").value = phone;
+		document.getElementById("editE").value = email;
+
+		document.getElementById("eRes")
+	}
+
+	function closeEdit()
+	{
+		ECI = -1;
+		document.getElementById("pUp").style.display = "none";
+	}
+
+	function cEdit(){
+	if(ECI < 0) return;
+
+	let tmp = {
+		ID: ECI,
+		UserID: userId,
+		FirstName: document.getElementsById("editF").value,
+		LastName: document.getElementById("editL").value,
+		Phone: document.getElementById("editP").value,
+		Email: document.getElementById("editE").value
+	};
+
+	let jsonPayload = JSON.stringify( tmp );
+	let url = urlBase + '/EditContact.' + extension;
+
+	let xhr = new XMLHttpRequest();
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+
+	xhr.onreadystatechange = function()
+	{
+		if(this.readyState == 4)
+		{
+			if(this.status == 200)
+			{
+				document.getElementById("eResults").innerHTML = "Updated Contact!"
+			
+			setTimeout(() => {
+				closeEdit();
+				searchContacts
+			}, 700);
+		}
+		else
+		{
+			document.getElementById("editResult").innerHTML = "Failed Updating Contact.";
+		}
+	}
+	};
+	xhr.send(jsonPayload);
 	}
 }
