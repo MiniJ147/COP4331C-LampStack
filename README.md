@@ -74,3 +74,10 @@ sudo mysql -u root < sql/mock-data.sql
 ```
 
 If you want information about the database files please read the header provide at the top of each file.
+
+## AI Disclosure
+
+AI was used in the creation of this project, including:
+	
+	-> Development of multiple scripts and files.
+	->
